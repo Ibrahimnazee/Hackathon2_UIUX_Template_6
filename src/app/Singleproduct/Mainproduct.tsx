@@ -12,7 +12,7 @@ import { useState } from "react";
 interface ProductProps {
   title: string;
   imageSrc: string;
-  price: string | number;
+  price: string | number; // Price can be a string or number
   description: string;
 }
 
@@ -26,9 +26,12 @@ const Mainproduct: React.FC<ProductProps> = ({
   const router = useRouter();
 
   const [localQuantity, setLocalQuantity] = useState(1);
+
+  // Handle increment and decrement of quantity
   const handleIncrement = () => {
     setLocalQuantity((prevQuantity) => prevQuantity + 1);
   };
+  
   const handleDecrement = () => {
     if (localQuantity > 1) {
       setLocalQuantity((prevQuantity) => prevQuantity - 1);
@@ -36,10 +39,13 @@ const Mainproduct: React.FC<ProductProps> = ({
   };
 
   const handleAddToCart = () => {
+    // Convert price to number if it's a string
+    const numericPrice = typeof price === 'string' ? parseFloat(price.replace(/[^\d.-]/g, '')) : price;
+
     addToCart({
       id: title, // Unique ID for product
       title,
-      price,
+      price: numericPrice, // Ensure price is a number
       quantity: localQuantity,
       imageSrc,
     });
@@ -47,10 +53,10 @@ const Mainproduct: React.FC<ProductProps> = ({
   };
 
   return (
-    <div className="w-full px-2 md:px-10 ">
+    <div className="w-full px-2 md:px-10">
       {/* top section */}
-      <div className="w-full h-[100px] flex items-center  ">
-        <div className=" flex items-center gap-2 md:gap-10 border-r-4 text-[#9F9F9F] border-[#9F9F9F] px-10 py-3 ">
+      <div className="w-full h-[100px] flex items-center">
+        <div className="flex items-center gap-2 md:gap-10 border-r-4 text-[#9F9F9F] border-[#9F9F9F] px-10 py-3">
           Home{" "}
           <span className="text-black">
             <FaChevronRight />
@@ -64,9 +70,8 @@ const Mainproduct: React.FC<ProductProps> = ({
       </div>
 
       {/* main section */}
-
-      <div className="w-full flex flex-col md:flex-row h-auto  justify-center md:gap-5 lg:gap-20 px-4 lg:px-10 border-[#9F9F9F] border-b-2">
-        {/* Left section main side image and main imgae */}
+      <div className="w-full flex flex-col md:flex-row h-auto justify-center md:gap-5 lg:gap-20 px-4 lg:px-10 border-[#9F9F9F] border-b-2">
+        {/* Left section main side image and main image */}
         <div className="w-full md:w-1/2 flex h-[500px] gap-5 py-4">
           {/* left images */}
           <div className="flex flex-col w-[77px] h-[416px] gap-6">
@@ -104,17 +109,17 @@ const Mainproduct: React.FC<ProductProps> = ({
             </div>
           </div>
           {/* Right main image */}
-          <div className="bg-[#FFF9E5] h-full flex justify-center items-center w-[80%] ">
+          <div className="bg-[#FFF9E5] h-full flex justify-center items-center w-[80%]">
             <Image src={imageSrc} width={481} height={391} alt="Main product" />
           </div>
         </div>
 
-        {/* Right section product details*/}
+        {/* Right section product details */}
         <div className="h-full w-full md:w-1/2 py-4">
           <p className="font-normal text-[42px] mb-3 ">{title}</p>
           <p className="text-[#9F9F9F] font-medium">Rs. {price}</p>
 
-          <div className="flex items-center  ">
+          <div className="flex items-center">
             <div className="flex gap-2 text-[#FFDA5B] pr-4 py-2 border-r-2 border-[#9F9F9F] ">
               <span>
                 <FaStar />

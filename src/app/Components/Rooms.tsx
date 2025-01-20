@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
-import { Span } from "next/dist/trace";
+
 
 export default function Rooms() {
   return (
